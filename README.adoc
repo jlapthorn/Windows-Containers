@@ -1,4 +1,4 @@
-= Containers are linux, but they can also be Windows.....
+= Containers are Linux, but they can also be Windows.....
 Doc Writer <jlapthorn@redhat.com>
 v1.0, 06-08-2020
 :toc:
@@ -165,7 +165,7 @@ The log is written into the cluster-win directiry and can be read using another 
 tail -f cluster-win/.openshift_install.log
 
 Below is a link to screencast of the cluster creation(Its been sped up)
-https://asciinema.org/a/7B4M3xJnLlyP9haNCpiDCQdPz[image:https://asciinema.org/a/7B4M3xJnLlyP9haNCpiDCQdPz.svg[asciicast]]
+https://asciinema.org/a/352030[image:https://asciinema.org/a/352030.svg[asciicast]]
 
 Once the cluster creation is complete you'll get you details of the URLS and the credentials, these are also stored in the cluster-win/auth directory.
 
