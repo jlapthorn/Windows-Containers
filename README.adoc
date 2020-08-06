@@ -219,7 +219,7 @@ Add the following code into the userdata field
 ----
 <powershell>
 $admin = [adsi]("WinNT://./administrator, user")
-$admin.PSBase.Invoke("SetPassword", "r3dh4t1!!")
+$admin.PSBase.Invoke("SetPassword", "r3dh4t1!")
 Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
 </powershell>
 ----
