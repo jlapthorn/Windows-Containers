@@ -65,7 +65,7 @@ EOF
 
 Create a ssh key pair to be used durring the installation.
 [source,bash]
-sh-keygen -f ~/.ssh/cluster-${GUID}-key -N ''
+sh-keygen -f ~/.ssh/cluster-key -N ''
 
 Create the install-config.yml file in directory.
 [source,bash]
