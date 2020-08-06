@@ -44,7 +44,7 @@ oc completion bash >/etc/bash_completion.d/openshift
 
 IMPORTANT: You can now exit the root session with `exit`
 
-== Change to default CNI
+== Change the default CNI
 
 Openshift 4 by default uses the https://docs.openshift.com/container-platform/4.5/networking/openshift_sdn/about-openshift-sdn.html[OpenshiftSDN]. Windows Containers requires that the default network provider be changed to https://docs.openshift.com/container-platform/4.5/networking/ovn_kubernetes_network_provider/about-ovn-kubernetes.html[OVN-Kubernetes]
 
