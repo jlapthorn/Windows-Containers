@@ -9,7 +9,7 @@ Windows Containers in Openshift are due to go GA in release 4.6.  It is possible
 
 == Prerequisites
 
-This guide was tested using Red Hat Enterprise Linux 8.2 and Opneshift 4.53.  It assumes that you have access to Amazon Web Services with an account that has the correct permissions.
+This guide was tested using Red Hat Enterprise Linux 8.2 and Openshift 4.5.3.  It assumes that you have access to Amazon Web Services with an account that has the correct permissions.
 The next steps ensure all the required packages are installed.
 
 1. Install the required packages
@@ -48,7 +48,7 @@ IMPORTANT: You can now exit the root session with `exit`
 
 Openshift 4 by default uses the https://docs.openshift.com/container-platform/4.5/networking/openshift_sdn/about-openshift-sdn.html[OpenshiftSDN]. Windows Containers requires that the default network provider be changed to https://docs.openshift.com/container-platform/4.5/networking/ovn_kubernetes_network_provider/about-ovn-kubernetes.html[OVN-Kubernetes]
 
-Export your AWS Access key credenials.  See https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html[this] guide to obtain them
+Export your AWS Access key credentials.  See https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html[this] guide to obtain them
 [source,bash]
 export AWSKEY=$1
 export AWSSECRETKEY=$2
@@ -63,7 +63,7 @@ aws_secret_access_key = ${AWSSECRETKEY}
 region = eu-central-1
 EOF
 
-Create a ssh key pair to be used durring the installation.
+Create an SSH key pair to be used during the installation.
 [source,bash]
 sh-keygen -f ~/.ssh/cluster-key -N ''
 
@@ -91,11 +91,11 @@ image::term4.png[Select Base Domain]
  
 image::term5.png[Cluster name]
 
-* You need to get you https://cloud.redhat.com/openshift/install[pull secret]
+* You need to get your https://cloud.redhat.com/openshift/install[pull secret]
  
 image::web1.png[Pull Secret]
 
-* Paste you pull secret 
+* Paste your pull secret 
  
 image::term6.png[Paste pull secret]
 
@@ -110,7 +110,7 @@ Create the manifests
 [source,bash]
 openshift-install create manifests --dir=cluster-win/
 
-This will create 2 directories insude the cluster-win directory; manifests and openshift.
+This will create 2 directories inside the cluster-win directory; `manifests` and `openshift`.
 Copy the current cluster network configuration to a new file
 [source,bash]
 cp manifests/cluster-network-02-config.yml manifests/cluster-network-03-config.yml
@@ -129,7 +129,7 @@ defaultNetwork:
         - cidr: 10.132.0.0/14
           hostPrefix: 23
 
-The finale file should end up looking like this
+The final file should end up looking like this
 [source,yaml]
 apiVersion: operator.openshift.io/v1
 kind: Network
@@ -160,14 +160,14 @@ Once all of the changes have been made to enable the https://docs.openshift.com/
 [source,bash]
 openshift-install create cluster --dir=cluster-win/
 
-The log is written into the cluster-win directiry and can be read using another session, alternatively you can add `--log-level=dbug` to the previous command line.
+The log is written into the cluster-win directory and can be read using another session, alternatively you can add `--log-level=dbug` to the previous command line.
 [source,bash]
 tail -f cluster-win/.openshift_install.log
 
-Below is a link to screencast of the cluster creation(Its been sped up)
+Below is a link to screencast of the cluster creation (it's been sped up)
 https://asciinema.org/a/352030[image:https://asciinema.org/a/352030.svg[asciicast]]
 
-Once the cluster creation is complete you'll get you details of the URLS and the credentials, these are also stored in the cluster-win/auth directory.
+Once the cluster creation is complete you'll get your details of the URLS and the credentials, these are also stored in the cluster-win/auth directory.
 
 image::term7.png[Cluster creds]
 
@@ -181,7 +181,7 @@ oc get network.operator cluster -o yaml
 
 == Deploying the Windows Instance
 
-There is an unsupported to tool for deploying the Windows instanc in AWS and Azure.  I have decided to manually create the instance using the AWS conole to get a better understanding.  The https://github.com/openshift/windows-machine-config-bootstrapper/releases/download/v4.4.3-alpha/wni[wni] script is available from github.  See instructions for using it in the references.
+There is an unsupported to tool for deploying the Windows instances in AWS and Azure.  I have decided to manually create the instance using the AWS console to get a better understanding.  The https://github.com/openshift/windows-machine-config-bootstrapper/releases/download/v4.4.3-alpha/wni[wni] script is available from github.  See instructions for using it in the references.
 
 In order to deploy the Windows Instance there is some information that you will need to obtain from the Openshift cluster and specifically from the existing linux worker
 
@@ -210,7 +210,7 @@ When configuring the instance details you must:
 
 image::aws3.png[instance details]
 
-To speed up the installation I use the "userdata" section to change the password for Administrator and eable winRM using this https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1[script].
+To speed up the installation I use the "userdata" section to change the password for Administrator and enable winRM using this https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1[script].
 
 WARNING: The userdata  field is not secure, setting the admin password this way shoud *not* be done in production
 
@@ -250,13 +250,13 @@ While the instance is launching you can attach an IAM role to the node.  This is
 image::aws8.png[IAM role]
 
 
-You alos need to add the security group that the exising linux node is using.  This is done by secting the node and going to Actions -> Networking -> Chage Security Groups.  Add the same security group that was attached to the linux node.
+You also need to add the security group that the exising linux node is using.  This is done by secting the node and going to Actions -> Networking -> Chage Security Groups.  Add the same security group that was attached to the linux node.
 
 image::aws9.png[Attach SG]
 
 == Ansible configuration
 
-winRM was enable while the windos instances was booting up for the first time.  We need the public and private IP from Windows instance as well as the Openshift cluster address. 
+winRM was enabled when the Windows instance was booting up for the first time.  We need the public and private IP from Windows instance as well as the Openshift cluster address. 
 
 [source,bash]
 oc cluster-info | head -n1 | sed 's/.*\/\/api.//g'| sed 's/:.*//g'
@@ -304,10 +304,10 @@ With the inventory file that we just created run the playbook
 [source,bash]
 ansible-playbook -i inventory windows-machine-config-bootstrapper/tools/ansible/tasks/wsu/main.yaml -v
 
-Below is a link to screencast of the cluster creation(Its been sped up)
+Below is a link to screencast of the cluster creation (it's been sped up)
 https://asciinema.org/a/7B4M3xJnLlyP9haNCpiDCQdPz[image:https://asciinema.org/a/7B4M3xJnLlyP9haNCpiDCQdPz.svg[asciicast]]
 
-Once the plabook completes the Windos node should now be available as a node in the cluster.
+Once the playbook completes the Windows node should now be available as a node in the cluster.
 
 [source,bash]
 oc get nodes -l kubernetes.io/os=windows
@@ -315,16 +315,16 @@ oc get nodes -l kubernetes.io/os=windows
 image::term8.png[Windows Node]
 
 
-Thats pretty much all there is to it!  Its still in tech preview so isn't available for production systems.  A reboot of the windows node requires the Windows Machine Config Bootstrapper playbook to be run again.  In the future all of this will be controlled by an operator.
+That's pretty much all there is to it!  It's still in tech preview so isn't available for production systems.  A reboot of the windows node requires the Windows Machine Config Bootstrapper playbook to be run again.  In the future all of this will be controlled by an operator.
 
 == Up Next
 
 * Deploying Windows container on Windows Node
-* Migratting from OpenshiftSDN to OVNKubernetes
+* Migrating from OpenshiftSDN to OVNKubernetes
 
 == References
 
-All of this work information I have sources from the following websites
+All of this work information I have sourced from the following websites
 
 * https://github.com/openshift/windows-machine-config-bootstrapper/blob/release-4.4/tools/ansible/docs/aws/aws-with-windows-server.md
 * http://blog.rolpdog.com/2015/09/manage-stock-windows-amis-with-ansible.html
